@@ -4,6 +4,7 @@ import Config from "./config/config.js";
 import {useUser} from "./user.js";
 import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
+import Item from "./item.js";
 //@@viewOff:imports
 
 const ShoppingList = createVisualComponent({
@@ -26,6 +27,11 @@ const ShoppingList = createVisualComponent({
 
     const [items, setItems] = useState([]);
     const [open, setOpen] = useState(false);
+    console.log(items);
+
+    function removeItem(id) {
+        setItems((items) => items.filter((item) => item.id !== id));
+    }
 
     return (
         <>
@@ -34,15 +40,23 @@ const ShoppingList = createVisualComponent({
                 card = "full" 
                 actionList = {[{icon: "uugds-plus", children: "Add item", onClick: () => setOpen(true) }]}
             >
-                <div>Current member: {user.name}</div>
-                {items.map((item) => (
-                    <div>
-                        {item.name}
-                    </div>
+                <div>Current member: {user.name}<hr /></div>
+                <Uu5Elements.Grid>
+                    {items.map((item) => (
+                        <Item key={item.id} {...item} onRemove={() => removeItem(item.id)} />
 
-                ))}
+                    //  <div key={item.id}>
+                    //     {item.name}
+                    //  </div>
+
+                    ))}
+                </Uu5Elements.Grid>
             </Uu5Elements.Block>
-            <Uu5Forms.Form.Provider key={open}>
+            <Uu5Forms.Form.Provider key={open} onSubmit={(e) => {
+                const item = e.data.value;
+                setItems((items) => [...items, {...item, id: Utils.String.generateId() }]);
+                setOpen(false);
+            }}>
                 <Uu5Elements.Modal 
                     open={open} 
                     onClose={() => setOpen(false)} 

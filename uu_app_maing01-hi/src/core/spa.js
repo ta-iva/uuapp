@@ -6,6 +6,9 @@ import Plus4U5App from "uu_plus4u5g02-app";
 
 import Config from "./config/config.js";
 import Home from "../routes/home.js";
+
+import { UserProvider } from "./user.js";
+import { UserSelector } from "./user.js";
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -56,9 +59,12 @@ const Spa = createVisualComponent({
     //@@viewOn:render
     return (
       <Plus4U5.SpaProvider initialLanguageList={["en", "cs"]}>
-        <Uu5Elements.ModalBus>
-          <Plus4U5App.Spa routeMap={ROUTE_MAP} />
-        </Uu5Elements.ModalBus>
+        <UserProvider>
+          <UserSelector />
+          <Uu5Elements.ModalBus>
+            <Plus4U5App.Spa routeMap={ROUTE_MAP} />
+          </Uu5Elements.ModalBus>
+        </UserProvider>
       </Plus4U5.SpaProvider>
     );
     //@@viewOff:render

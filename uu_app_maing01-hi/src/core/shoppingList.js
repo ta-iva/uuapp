@@ -25,7 +25,11 @@ const ShoppingList = createVisualComponent({
     const user = useUser();
     console.log("user", user);
 
-    const [items, setItems] = useState([]);
+    const [items, setItems] = useState([
+        {id: Utils.String.generateId(), name: "Rohlík", amount: "3 ks"}, 
+        {id: Utils.String.generateId(), name: "Mlíko", amount: "1 krabice"},
+        {id: Utils.String.generateId(), name: "Sardinky", amount: "1 konzerva"}
+    ]);
     const [open, setOpen] = useState(false);
     console.log(items);
 
@@ -35,12 +39,12 @@ const ShoppingList = createVisualComponent({
 
     return (
         <>
-            <Uu5Elements.Block header = "Shopping List" 
+            <Uu5Elements.Block header = "Nákupní seznam" 
                 headerType = "title" 
                 card = "full" 
-                actionList = {[{icon: "uugds-plus", children: "Add item", onClick: () => setOpen(true) }]}
+                actionList = {[{icon: "uugds-plus", children: "Přidej položku", onClick: () => setOpen(true) }]}
             >
-                <div>Current member: {user.name}<hr /></div>
+                <div>Aktuální uživatel: {user.name}<hr /></div>
                 <Uu5Elements.Grid>
                     {items.map((item) => (
                         <Item key={item.id} {...item} onRemove={() => removeItem(item.id)} />
@@ -60,7 +64,7 @@ const ShoppingList = createVisualComponent({
                 <Uu5Elements.Modal 
                     open={open} 
                     onClose={() => setOpen(false)} 
-                    header="Add item"
+                    header="Nová nákupní položka"
                     footer={
                         <div className={Config.Css.css({display: "flex", gap: 8, justifyContent:"end"})}>
                             <Uu5Forms.SubmitButton />
@@ -69,8 +73,8 @@ const ShoppingList = createVisualComponent({
                     }
                 >
                     <Uu5Forms.Form.View gridLayout={{xs: "name, amount", s: "name name amount"}}>
-                        <Uu5Forms.FormText name="name" label="Item description" required/>
-                        <Uu5Forms.FormText name="amount" label="Amount"/>
+                        <Uu5Forms.FormText name="name" label="Název položky" required/>
+                        <Uu5Forms.FormText name="amount" label="Množství"/>
                     </Uu5Forms.Form.View>
                 </Uu5Elements.Modal>
             </Uu5Forms.Form.Provider>

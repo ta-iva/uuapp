@@ -26,6 +26,7 @@ const ShoppingList = createVisualComponent({
     const user = useUser();
     console.log("user", user);
 
+    const [shoppingListName, setShoppingListName] = useState("Nákupní seznam");
     const [items, setItems] = useState([
         {id: Utils.String.generateId(), name: "Rohlík", amount: "3 ks"}, 
         {id: Utils.String.generateId(), name: "Mlíko", amount: "1 krabice"},
@@ -34,7 +35,10 @@ const ShoppingList = createVisualComponent({
     const owner = USERS[2];
     const [members, setMembers] = useState([USERS[1], USERS[3]]);
 
-    const [open, setOpen] = useState(false);
+    const [open1, setOpen1] = useState(false);
+    const [open2, setOpen2] = useState(false);
+    const [open3, setOpen3] = useState(false);
+
     console.log(items);
 
     function removeItem(id) {
@@ -47,10 +51,14 @@ const ShoppingList = createVisualComponent({
 
     return (
         <>
-            <Uu5Elements.Block header = "Nákupní seznam" 
+            <Uu5Elements.Block header = {shoppingListName} 
                 headerType = "title" 
                 card = "full" 
-                actionList = {[{icon: "uugds-plus", children: "Přidej položku", onClick: () => setOpen(true) }]}
+                actionList = {[
+                    {icon: "uugds-basket", children: "Přidej položku", onClick: () => setOpen1(true) },
+                    {icon: "uugds-account", children: "Přidej člena", onClick: () => setOpen2(true) },
+                    {icon: "uugds-pencil", children: "Uprav název", onClick: () => setOpen3(true) }
+            ]}
             >
                 <div><b>Vlastník:</b> {owner.name}<hr /></div>
 
@@ -82,19 +90,20 @@ const ShoppingList = createVisualComponent({
                 </Uu5Elements.Grid>
 
             </Uu5Elements.Block>
-            <Uu5Forms.Form.Provider key={open} onSubmit={(e) => {
+
+            <Uu5Forms.Form.Provider key={open1} onSubmit={(e) => {
                 const item = e.data.value;
                 setItems((items) => [...items, {...item, id: Utils.String.generateId() }]);
-                setOpen(false);
+                setOpen1(false);
             }}>
                 <Uu5Elements.Modal 
-                    open={open} 
-                    onClose={() => setOpen(false)} 
+                    open={open1} 
+                    onClose={() => setOpen1(false)} 
                     header="Nová nákupní položka"
                     footer={
                         <div className={Config.Css.css({display: "flex", gap: 8, justifyContent:"end"})}>
                             <Uu5Forms.SubmitButton />
-                            <Uu5Forms.CancelButton onClick={() => setOpen(false)} />
+                            <Uu5Forms.CancelButton onClick={() => setOpen1(false)} />
                         </div>
                     }
                 >
@@ -104,6 +113,26 @@ const ShoppingList = createVisualComponent({
                     </Uu5Forms.Form.View>
                 </Uu5Elements.Modal>
             </Uu5Forms.Form.Provider>
+
+            <Uu5Forms.Form.Provider key={open3} onSubmit={(e) => {
+                setShoppingListName(e.data.value.name);
+                setOpen3(false);
+            }}>
+                <Uu5Elements.Modal 
+                    open={open3} 
+                    onClose={() => setOpen3(false)} 
+                    header="Úprava názvu nákupního seznamu"
+                    footer={
+                        <div className={Config.Css.css({display: "flex", gap: 8, justifyContent:"end"})}>
+                            <Uu5Forms.SubmitButton />
+                            <Uu5Forms.CancelButton onClick={() => setOpen3(false)} />
+                        </div>
+                    }
+                >
+                    <Uu5Forms.FormText name="name" label="Nový název" required/>
+                </Uu5Elements.Modal>
+            </Uu5Forms.Form.Provider>
+
         </>
     );
     //@@viewOff:render

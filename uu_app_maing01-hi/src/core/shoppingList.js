@@ -1,10 +1,11 @@
 //@@viewOn:imports
 import { createVisualComponent, useState, Utils } from "uu5g05";
 import Config from "./config/config.js";
-import {useUser} from "./user.js";
+import {USERS, useUser} from "./user.js";
 import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
 import Item from "./item.js";
+import MemberItem from "./memberItem.js";
 //@@viewOff:imports
 
 const ShoppingList = createVisualComponent({
@@ -30,12 +31,19 @@ const ShoppingList = createVisualComponent({
         {id: Utils.String.generateId(), name: "Mlíko", amount: "1 krabice"},
         {id: Utils.String.generateId(), name: "Sardinky", amount: "1 konzerva"}
     ]);
+    const owner = USERS[2];
+    const [members, setMembers] = useState([USERS[1], USERS[3]]);
+
     const [open, setOpen] = useState(false);
     console.log(items);
 
     function removeItem(id) {
         setItems((items) => items.filter((item) => item.id !== id));
     }
+    function removeMember(id) {
+        setMembers((members) => members.filter((member) => member.id !== id));
+    }
+
 
     return (
         <>
@@ -44,7 +52,24 @@ const ShoppingList = createVisualComponent({
                 card = "full" 
                 actionList = {[{icon: "uugds-plus", children: "Přidej položku", onClick: () => setOpen(true) }]}
             >
-                <div>Aktuální uživatel: {user.name}<hr /></div>
+                <div><b>Vlastník:</b> {owner.name}<hr /></div>
+
+                <div>
+                    <br />
+                    <h3>Seznam členů:</h3>
+                </div>
+                <Uu5Elements.Grid>
+                    {members.map((member) => (
+                        <MemberItem key={member.id} {...member} onRemove={() => removeMember(member.id)} />
+                    ))}
+                </Uu5Elements.Grid>
+
+                <div>
+                    <hr />
+                    <br />
+                    <h3>Seznam položek:</h3>
+                </div>
+
                 <Uu5Elements.Grid>
                     {items.map((item) => (
                         <Item key={item.id} {...item} onRemove={() => removeItem(item.id)} />
@@ -55,6 +80,7 @@ const ShoppingList = createVisualComponent({
 
                     ))}
                 </Uu5Elements.Grid>
+
             </Uu5Elements.Block>
             <Uu5Forms.Form.Provider key={open} onSubmit={(e) => {
                 const item = e.data.value;

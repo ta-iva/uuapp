@@ -18,13 +18,13 @@ const Item = createVisualComponent({
   //@@viewOff:defaultProps
 
   render(props) {
-    const {id, name, amount, onRemove} = props;
+    const {id, name, amount, isSolved, toggleSolved, onRemove} = props;
 
     //@@viewOn:render
     return (
         <Uu5Elements.ListItem actionList={[{icon: "uugds-delete", colorScheme: "negative", onClick: onRemove}]}>
             <div>
-                {name} {amount && <i>&nbsp;({amount})</i>}
+            <Uu5Elements.Toggle value={isSolved} size="xs" onChange={(e) => toggleSolved(e.data.value)} />&nbsp;&nbsp;{name} {amount && <i>&nbsp;({amount})</i>}
             </div>
         </Uu5Elements.ListItem>
     )

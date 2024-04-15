@@ -26,12 +26,13 @@ const ShoppingList = createVisualComponent({
     const user = useUser();
     console.log("user", user);
 
-    const [shoppingListName, setShoppingListName] = useState("Nákupní seznam");
+    const [shoppingListName, setShoppingListName] = useState("Večerka Na Růžku");
     const [items, setItems] = useState([
-        {id: Utils.String.generateId(), name: "Rohlík", amount: "3 ks"}, 
-        {id: Utils.String.generateId(), name: "Mlíko", amount: "1 krabice"},
-        {id: Utils.String.generateId(), name: "Sardinky", amount: "1 konzerva"}
+        {id: Utils.String.generateId(), name: "Rohlík", amount: "3 ks", isSolved: false}, 
+        {id: Utils.String.generateId(), name: "Mlíko", amount: "1 krabice", isSolved: false},
+        {id: Utils.String.generateId(), name: "Sardinky", amount: "1 konzerva", isSolved: false}
     ]);
+    const [filter, setFilter] = useState("all");
  
     const owner = USERS[2];
     const [members, setMembers] = useState([USERS[1], USERS[3]]);
@@ -40,7 +41,15 @@ const ShoppingList = createVisualComponent({
     const [openModalMember, setModalMember] = useState(false);
     const [openModalTitle, setModalTitle] = useState(false);
 
-    //console.log(items);
+    function filterItems() {
+        if (filter === "all"){
+            return items;
+        } else if (filter === "solved"){
+            return items.filter(item => item.isSolved === true);
+        } else if (filter === "unsolved"){
+            return items.filter(item => item.isSolved === false);
+        }
+    }
 
     function removeItem(id) {
         setItems((items) => items.filter((item) => item.id !== id));
@@ -49,9 +58,14 @@ const ShoppingList = createVisualComponent({
         if (user.id === owner.id || user.id === id) {
             setMembers((members) => members.filter((member) => member.id !== id));
         } else {
-            console.log("Aktuální uživatel není vlastníkem nákupního seznamu ani odebíraným členem, nemůže tak odebrat jiného člena.");
+            alert("Aktuální uživatel není vlastníkem nákupního seznamu ani odebíraným členem, nemůže tak odebrat jiného člena.");
         }
     }
+
+    function toggleSolvedItem(id) {
+        setItems(prevItems => prevItems.map(item => item.id === id ? {...item, isSolved: !item.isSolved} : item));
+    }
+    //console.log(items);
 
     // nonMemberSelector - půjde do samostatné komponenty
     const memberIDs = members.map((member) => member.id);
@@ -60,7 +74,7 @@ const ShoppingList = createVisualComponent({
 
     return (
         <>
-            <Uu5Elements.Block header = {shoppingListName} 
+            <Uu5Elements.Block header = {<h3>{shoppingListName}</h3>} 
                 headerType = "title" 
                 card = "full" 
                 actionList = {[
@@ -84,11 +98,15 @@ const ShoppingList = createVisualComponent({
                 <div>
                     <hr /><br />
                     <h3>Seznam položek:</h3>
+                <Uu5Elements.Button effect="ground" colorScheme="light-blue" onClick={() => setFilter("all")}>Vše</Uu5Elements.Button>&nbsp;&nbsp;
+                <Uu5Elements.Button effect="ground" colorScheme="light-blue" onClick={() => setFilter("unsolved")}>Nevyřešené</Uu5Elements.Button>&nbsp;&nbsp;
+                <Uu5Elements.Button effect="ground" colorScheme="light-blue" onClick={() => setFilter("solved")}>Vyřešené</Uu5Elements.Button>
                 </div>
+                <br />
 
                 <Uu5Elements.Grid>
-                    {items.map((item) => (
-                        <Item key={item.id} {...item} onRemove={() => removeItem(item.id)} />
+                    {filterItems().map((item) => (
+                        <Item key={item.id} {...item} onRemove={() => removeItem(item.id)} toggleSolved={() => toggleSolvedItem(item.id)} />
                     ))}
                 </Uu5Elements.Grid>
 
@@ -123,7 +141,7 @@ const ShoppingList = createVisualComponent({
                 const newMember = nonMembers.find(nonMember => nonMember.id === newMemberId);
                 setMembers((members) => [...members, {...newMember}]);
                 } else {
-                    console.log("Aktuální uživatel není vlastníkem nákupního seznamu, a nemůže tak přidávat nové členy.");
+                    alert("Aktuální uživatel není vlastníkem nákupního seznamu, a nemůže tak přidávat nové členy.");
                 }
                 setModalMember(false);
             }}>
@@ -146,7 +164,7 @@ const ShoppingList = createVisualComponent({
                 if (user.id === owner.id) {
                     setShoppingListName(e.data.value.name);
                 } else {
-                    console.log("Aktuální uživatel není vlastníkem nákupního seznamu, a nemůže tak měnit jeho název.");
+                    alert("Aktuální uživatel není vlastníkem nákupního seznamu, a nemůže tak měnit jeho název.");
                 }
                 setModalTitle(false);
             }}>

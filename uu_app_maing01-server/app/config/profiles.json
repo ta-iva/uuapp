@@ -61,19 +61,19 @@
         "sysStateList": ["active"],
         "profileList": ["Authorities","Executives"]
       },
-      "list": {
+      "item/list": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","Executives"]
       },
-      "update": {
+      "item/update": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","Executives"]
       },
-      "delete": {
+      "item/delete": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","Executives"]
       },
-      "get": {
+      "user/get": {
         "sysStateList": ["active"],
         "profileList": ["Authorities","Executives"]
       }

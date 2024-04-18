@@ -71,22 +71,22 @@
         "httpMethod": "GET",
         "type": "CMD"
       },
-      "list": {
+      "item/list": {
         "realization": "api/controllers/ItemController.list",
         "httpMethod": "GET",
         "type": "CMD"
       },
-      "update": {
+      "item/update": {
         "realization": "api/controllers/ItemController.update",
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "delete": {
+      "item/delete": {
         "realization": "api/controllers/ItemController.delete",
         "httpMethod": "POST",
         "type": "CMD"
       },
-      "get": {
+      "user/get": {
         "realization": "api/controllers/UserController.get",
         "httpMethod": "GET",
         "type": "CMD"

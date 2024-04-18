@@ -6,6 +6,15 @@
       "schemaMap": {
         "appMain": {
           "realization": "dao/AppMainMongo"
+        },
+        "shoppingList": {
+          "realization": "dao/ShoppingListMongo"
+        },
+        "item": {
+          "realization": "dao/ItemMongo"
+        },
+        "user": {
+          "realization": "dao/UserMongo"
         }
       }
     }

@@ -25,6 +25,71 @@
         "realization": "index.html",
         "httpMethod": "GET",
         "type": "UVE"
+      },
+      "shoppingList/create": {
+        "realization": "api/controllers/ShoppingListController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "shoppingList/get": {
+        "realization": "api/controllers/ShoppingListController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "shoppingList/list": {
+        "realization": "api/controllers/ShoppingListController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "shoppingList/update": {
+        "realization": "api/controllers/ShoppingListController.update",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "shoppingList/delete": {
+        "realization": "api/controllers/ShoppingListController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "shoppingList/addMember": {
+        "realization": "api/controllers/ShoppingListController.addMember",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "shoppingList/deleteMember": {
+        "realization": "api/controllers/ShoppingListController.deleteMember",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "item/create": {
+        "realization": "api/controllers/ItemController.create",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "item/get": {
+        "realization": "api/controllers/ItemController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "list": {
+        "realization": "api/controllers/ItemController.list",
+        "httpMethod": "GET",
+        "type": "CMD"
+      },
+      "update": {
+        "realization": "api/controllers/ItemController.update",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "delete": {
+        "realization": "api/controllers/ItemController.delete",
+        "httpMethod": "POST",
+        "type": "CMD"
+      },
+      "get": {
+        "realization": "api/controllers/UserController.get",
+        "httpMethod": "GET",
+        "type": "CMD"
       }
     }
   }

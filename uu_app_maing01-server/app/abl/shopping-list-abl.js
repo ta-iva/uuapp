@@ -16,19 +16,19 @@ class ShoppingListAbl {
     this.dao = DaoFactory.getDao("shoppingList");
   }
 
-  async deleteMember(awid, dtoIn) {
+  async deleteMember(awid, dtoIn, session) {
     
   }
 
-  async addMember(awid, dtoIn) {
+  async addMember(awid, dtoIn, session) {
     
   }
 
-  async delete(awid, dtoIn) {
+  async delete(awid, dtoIn, session) {
     
   }
 
-  async update(awid, dtoIn) {
+  async update(awid, dtoIn, session) {
     
   }
 
@@ -40,7 +40,7 @@ class ShoppingListAbl {
     
   }
 
-  async create(awid, dtoIn) {
+  async create(awid, dtoIn, session) {
     
   }
 

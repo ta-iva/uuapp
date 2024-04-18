@@ -4,11 +4,11 @@ const ItemAbl = require("../../abl/item-abl.js");
 class ItemController {
 
   delete(ucEnv) {
-    return ItemAbl.delete(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+    return ItemAbl.delete(ucEnv.getUri().getAwid(), ucEnv.getDtoIn()), ucEnv.getSession();
   }
 
   update(ucEnv) {
-    return ItemAbl.update(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+    return ItemAbl.update(ucEnv.getUri().getAwid(), ucEnv.getDtoIn()), ucEnv.getSession();
   }
 
   list(ucEnv) {
@@ -20,7 +20,7 @@ class ItemController {
   }
 
   create(ucEnv) {
-    return ItemAbl.create(ucEnv.getUri().getAwid(), ucEnv.getDtoIn());
+    return ItemAbl.create(ucEnv.getUri().getAwid(), ucEnv.getDtoIn()), ucEnv.getSession();
   }
 
 }

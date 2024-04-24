@@ -4,6 +4,10 @@ import { withRoute } from "uu_plus4u5g02-app";
 
 import Config from "./config/config.js";
 import ShoppingList from "../core/shoppingList.js";
+import Uu5Elements from "uu5g05-elements";
+import NavBar from "../bricks/navBar.js";
+import ListOfLists from "../core/listOfLists.js";
+
 //@@viewOff:imports
 
 //@@viewOn:constants
@@ -22,9 +26,9 @@ const Css = {
 //@@viewOn:helpers
 //@@viewOff:helpers
 
-let Home = createVisualComponent({
+let Overview = createVisualComponent({
   //@@viewOn:statics
-  uu5Tag: Config.TAG + "Home",
+  uu5Tag: Config.TAG + "Overview",
   //@@viewOff:statics
 
   //@@viewOn:propTypes
@@ -47,16 +51,17 @@ let Home = createVisualComponent({
     const attrs = Utils.VisualComponent.getAttrs(props, Config.Css.css({padding: 16}));
     return (
       <div {...attrs}>
-        Homepage is empty now
+        <NavBar />
+        <ListOfLists />
       </div>
     );
     //@@viewOff:render
   },
 });
 
-Home = withRoute(Home, { authenticated: true });
+Overview = withRoute(Overview, { authenticated: true });
 
 //@@viewOn:exports
-export { Home };
-export default Home;
+export { Overview };
+export default Overview;
 //@@viewOff:exports

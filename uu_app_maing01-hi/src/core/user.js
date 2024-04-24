@@ -1,10 +1,20 @@
 import { useState, Utils } from "uu5g05";
 
 const USERS = [
-  { id: "123", name: "James" },
-  { id: "234", name: "Amelia" },
-  { id: "345", name: "John" },
-  { id: "456", name: "Chloe" }
+  { id: "123", name: "Kuba" },
+  { id: "234", name: "Amálka" },
+  { id: "345", name: "Honza" },
+  { id: "456", name: "Klára" },
+  { id: "567", name: "Petra" },
+  { id: "789", name: "Jana" },
+  { id: "890", name: "Michal" },
+  { id: "901", name: "Denisa" },
+  { id: "012", name: "Alice" },
+  { id: "111", name: "Vašek" },
+  { id: "222", name: "Pavla" },
+  { id: "333", name: "Jirka" },
+  { id: "555", name: "Andrea" },
+  { id: "666", name: "Karel" }  
 ];
 
 // in pure react

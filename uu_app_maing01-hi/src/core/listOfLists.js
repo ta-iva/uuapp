@@ -2,6 +2,7 @@
 import { createVisualComponent, useState, Utils } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
+import Uu5Forms from "uu5g05-forms";
 import {USERS, useUser} from "./user.js";
 
 //import Uu5Forms from "uu5g05-forms";
@@ -30,7 +31,6 @@ const ListOfLists = createVisualComponent({
     const [openModal, setModal] = useState(false);
     const [archive, setArchive] = useState([]);
     const user = useUser();
-
     
     const [data, setData] = useState([
         {shoppingListName: "Večerka", id: Utils.String.generateId(), owner: USERS[9].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
@@ -44,17 +44,34 @@ const ListOfLists = createVisualComponent({
         {shoppingListName: "Hypermarket 2", id: Utils.String.generateId(), owner: USERS[7].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
         {shoppingListName: "Ultramarket 2", id: Utils.String.generateId(), owner: USERS[3].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]}
     ]);
+    const [listItems, setListItems] = useState(data);
+    const [filterToggled, setFilterToggled] = useState(true);
 
-    function handleRemove(data) {
-        if (user.name === data.owner) {
-            setData((item) => item.filter((item) => item.id !== data.id));
-            if (!archive.some((item) => item.id === data.id)) {
-                setArchive([...archive, item]);
+    function handleRemove(listItem) {
+        if (user.name === listItem.owner) {
+            const updatedData = data.filter((item) => item.id !== listItem.id);
+            setData(updatedData);
+
+            if (!filterToggled) {
+                setListItems(updatedData);
+              }
+
+            if (!archive.some((item) => item.id === listItem.id)) {
+                setArchive([...archive, listItem]);
             }
         } else {
             alert("Aktuální uživatel není vlastníkem daného nákupního seznamu, nemůže jej proto smazat.");
         }    
     };
+
+    function toggleFilter() {
+        setFilterToggled(!filterToggled);
+        if (filterToggled) {
+            setListItems(archive);
+        } else {
+            setListItems(data);
+        }
+    }
 
     return (
         <>
@@ -62,32 +79,63 @@ const ListOfLists = createVisualComponent({
                 headerType = "title" 
                 card = "full" 
                 actionList = {[
-                    {icon: "uugdsstencil-education-exam", children: "Vytvoř nový seznam", onClick: () => setModal(true) },
+                    {icon: "uugds-plus", children: "Vytvoř nový seznam", onClick: () => setModal(true) }
                 ]}
             >
-                    <Uu5Elements.Grid templateColumns="repeat(auto-fit, minmax(min(250px, 100%), 1fr))" rowGap={16} columnGap={32}>
-                        {data.map((data) => (
-                            <Uu5Elements.Box className={Config.Css.css({ padding: 16 })} key={data.id} {...data}>
-                                <h4>{data.shoppingListName}</h4>
-                                <i>vlastník:</i><br/>
-                                <div style={{paddingLeft:"60px"}}>{data.owner}</div>
+            <div align="right">
+            <b>aktuální data&nbsp;</b>
+            <Uu5Elements.Toggle size="l" value={!filterToggled} size="s" onChange={(e) => toggleFilter()} />
+            <b>&nbsp;archiv</b>
+            </div>
+
+                <Uu5Elements.Grid templateColumns="repeat(auto-fit, minmax(min(250px, 100%), 1fr))" rowGap={16} columnGap={32}>
+                    {listItems.map((listItem) => (
+                        <Uu5Elements.Box className={Config.Css.css({ padding: 16 })} key={listItem.id} {...listItem}>
+                            <h4>{listItem.shoppingListName}</h4>
+                            <i>vlastník:</i><br/>
+                            <div style={{paddingLeft:"60px"}}>{listItem.owner}</div>
                                 <i>členové:</i>
-                                 {data.members.map((member) => (
-                                    <div style={{paddingLeft:"60px"}}>{member}</div>
+                                {listItem.members.map((member) => (
+                                   <div style={{paddingLeft:"60px"}}>{member}</div>
                                 ))}
                                 <i>položky:</i>
-                                {data.items.map((item) => (
+                                {listItem.items.map((item) => (
                                     <div style={{paddingLeft:"60px"}}>{item.name}&nbsp;({item.amount})</div>
-                                    
                                 ))}
 
-                                {/* <Uu5Elements.Button effect="ground" icon="uugds-pencil" onClick={(e) => handleDetail(data.id)} /> */}
-                                <Uu5Elements.Button effect="ground" icon="uugds-delete" onClick={(e) => handleRemove(data)} />
-                            </Uu5Elements.Box>
-            ))}
-                    </Uu5Elements.Grid>
+                            {/* <Uu5Elements.Button effect="ground" icon="uugds-pencil" onClick={(e) => handleDetail(listItem.id)} /> */}
+                            <Uu5Elements.Button effect="ground" icon="uugds-delete" onClick={(e) => handleRemove(listItem)} />
+                        </Uu5Elements.Box>
+                    ))}
+                </Uu5Elements.Grid>
 
             </Uu5Elements.Block>
+
+            <Uu5Forms.Form.Provider key={openModal} onSubmit={(e) => {
+                const item = e.data.value;
+                setData((data) => [...data, {...item, shoppingListName: shoppingListNameid, id: Utils.String.generateId(), user: user.name, members: members, items:[{name: itemsName, amount: itemsAmount}]}]);
+                setModal(false);
+            }}>
+                <Uu5Elements.Modal 
+                    open={openModal} 
+                    onClose={() => setModal(false)} 
+                    header="Nový nákupní seznam"
+                    footer={
+                        <div className={Config.Css.css({display: "flex", gap: 8, justifyContent:"end"})}>
+                            <Uu5Forms.SubmitButton />
+                            <Uu5Forms.CancelButton onClick={() => setModal(false)} />
+                        </div>
+                    }
+                >
+                    <Uu5Forms.Form.View gridLayout={{s: "shoppingListName shoppingListName, members members, itemsName itemsAmount", xs: "shoppingListName, members, itemsName, itemsAmount"}}>
+                        <Uu5Forms.FormText name="shoppingListName" label="Název seznamu" required/>
+                        <Uu5Forms.FormText name="members" label="Člen seznamu"/>
+                        <Uu5Forms.FormText name="itemsName" label="Položka" required/>
+                        <Uu5Forms.FormText name="itemsAmount" label="Množstvi" />
+                    </Uu5Forms.Form.View>
+                </Uu5Elements.Modal>
+            </Uu5Forms.Form.Provider>
+
         </> 
     );
 

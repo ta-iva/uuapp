@@ -3,6 +3,7 @@ import { createVisualComponent, useState, Utils } from "uu5g05";
 import Config from "./config/config.js";
 import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
+import { XyChart } from "uu5chartsg01";
 import {USERS, useUser} from "./user.js";
 
 //import Uu5Forms from "uu5g05-forms";
@@ -33,19 +34,20 @@ const ListOfLists = createVisualComponent({
     const user = useUser();
     
     const [data, setData] = useState([
-        {shoppingListName: "Večerka", id: Utils.String.generateId(), owner: USERS[9].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
-        {shoppingListName: "Koloniál", id: Utils.String.generateId(), owner: USERS[4].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
-        {shoppingListName: "Supermarket", id: Utils.String.generateId(), owner: USERS[11].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
+        {shoppingListName: "Večerka", id: Utils.String.generateId(), owner: USERS[9].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}, {"name":"Čokoláda", "amount":"2 ks"}, {"name":"Pivo", "amount":"2 lahváče"}]},
+        {shoppingListName: "Koloniál", id: Utils.String.generateId(), owner: USERS[4].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}, {"name":"Čokoláda", "amount":"2 ks"}]},
+        {shoppingListName: "Supermarket", id: Utils.String.generateId(), owner: USERS[11].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}]},
         {shoppingListName: "Hypermarket", id: Utils.String.generateId(), owner: USERS[10].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
-        {shoppingListName: "Ultramarket", id: Utils.String.generateId(), owner: USERS[5].name, members: ["Alice", "Karel", "Denisa"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
-        {shoppingListName: "Večerka 2", id: Utils.String.generateId(), owner: USERS[6].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
-        {shoppingListName: "Koloniál 2", id: Utils.String.generateId(), owner: USERS[13].name, members: ["Alice", "Vašek", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
-        {shoppingListName: "Supermarket 2", id: Utils.String.generateId(), owner: USERS[8].name, members: ["Pavla", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
-        {shoppingListName: "Hypermarket 2", id: Utils.String.generateId(), owner: USERS[7].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]},
+        {shoppingListName: "Ultramarket", id: Utils.String.generateId(), owner: USERS[5].name, members: ["Alice", "Karel", "Denisa"], items: [{"name":"Rohlík", "amount":"3 ks"}]},
+        {shoppingListName: "Večerka 2", id: Utils.String.generateId(), owner: USERS[6].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}, {"name":"Čokoláda", "amount":"2 ks"}, {"name":"Toaleťák", "amount":"8 rolí"}]},
+        {shoppingListName: "Koloniál 2", id: Utils.String.generateId(), owner: USERS[13].name, members: ["Alice", "Vašek", "Jana"], items: []},
+        {shoppingListName: "Supermarket 2", id: Utils.String.generateId(), owner: USERS[8].name, members: ["Pavla", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}]},
+        {shoppingListName: "Hypermarket 2", id: Utils.String.generateId(), owner: USERS[7].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}, {"name":"Čokoláda", "amount":"2 ks"}, {"name":"Pivo", "amount":"2 lahváče"}, {"name":"Maso na guláš", "amount":"0,5 kg"}]},
         {shoppingListName: "Ultramarket 2", id: Utils.String.generateId(), owner: USERS[3].name, members: ["Alice", "Karel", "Jana"], items: [{"name":"Rohlík", "amount":"3 ks"}, {"name":"Mlíko", "amount":"1 krabice"}, {"name":"Sardinky", "amount":"1 konzerva"}]}
     ]);
     const [listItems, setListItems] = useState(data);
     const [filterToggled, setFilterToggled] = useState(true);
+    const chartData = listItems.map((item) => ({...item, itemsCount: item.items.length || 0}));
 
     function handleRemove(listItem) {
         if (user.name === listItem.owner) {
@@ -108,6 +110,16 @@ const ListOfLists = createVisualComponent({
                         </Uu5Elements.Box>
                     ))}
                 </Uu5Elements.Grid>
+
+                <div>
+                    <hr /><br />
+                    <h3>Přehled nákupních seznamů a počtu jejich položek</h3>
+                    <XyChart
+                    data={chartData}
+                    serieList={[{ valueKey: "itemsCount", bar: true, color: "light-green" }]}
+                    labelAxis={{ dataKey: "shoppingListName" }}
+                    />
+                </div>
 
             </Uu5Elements.Block>
 

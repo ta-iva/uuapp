@@ -29,9 +29,12 @@ const ShoppingList = createVisualComponent({
 
     const [shoppingListName, setShoppingListName] = useState("Večerka Na Růžku");
     const [items, setItems] = useState([
-        {id: Utils.String.generateId(), name: "Rohlík", amount: "3 ks", isSolved: false}, 
+        {id: Utils.String.generateId(), name: "Rohlíky", amount: "3 ks", isSolved: true}, 
         {id: Utils.String.generateId(), name: "Mlíko", amount: "1 krabice", isSolved: false},
-        {id: Utils.String.generateId(), name: "Sardinky", amount: "1 konzerva", isSolved: false}
+        {id: Utils.String.generateId(), name: "Sardinky", amount: "1 konzerva", isSolved: false},
+        {id: Utils.String.generateId(), name: "Čokoláda", amount: "2 ks", isSolved: false},
+        {id: Utils.String.generateId(), name: "Pivo", amount: "2 lahváče", isSolved: false},
+        {id: Utils.String.generateId(), name: "Toaleťák", amount: "8 rolí", isSolved: true},
     ]);
     const [filter, setFilter] = useState("all");
  

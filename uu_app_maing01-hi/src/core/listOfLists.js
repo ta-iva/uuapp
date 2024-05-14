@@ -77,7 +77,7 @@ const ListOfLists = createVisualComponent({
 
     return (
         <>
-            <Uu5Elements.Block header = "Přehled všech seznamů"
+            <Uu5Elements.Block header = "Přehled nákupních seznamů"
                 headerType = "title" 
                 card = "full" 
                 actionList = {[
@@ -92,7 +92,7 @@ const ListOfLists = createVisualComponent({
 
                 <Uu5Elements.Grid templateColumns="repeat(auto-fit, minmax(min(250px, 100%), 1fr))" rowGap={16} columnGap={32}>
                     {listItems.map((listItem) => (
-                        <Uu5Elements.Box className={Config.Css.css({ padding: 16 })} key={listItem.id} {...listItem}>
+                        <Uu5Elements.Box className={Config.Css.css({ padding: 16, display: "flex", flexDirection: "column" })} key={listItem.id} {...listItem}>
                             <h4>{listItem.shoppingListName}</h4>
                             <i>vlastník:</i><br/>
                             <div style={{paddingLeft:"60px"}}>{listItem.owner}</div>
@@ -104,16 +104,14 @@ const ListOfLists = createVisualComponent({
                                 {listItem.items.map((item) => (
                                     <div style={{paddingLeft:"60px"}}>{item.name}&nbsp;({item.amount})</div>
                                 ))}
-
-                            {/* <Uu5Elements.Button effect="ground" icon="uugds-pencil" onClick={(e) => handleDetail(listItem.id)} /> */}
-                            <Uu5Elements.Button effect="ground" icon="uugds-delete" onClick={(e) => handleRemove(listItem)} />
+                            <Uu5Elements.Button style={{alignSelf:"flex-end", marginTop:"auto"}} effect="ground" icon="uugds-delete" onClick={(e) => handleRemove(listItem)} />
                         </Uu5Elements.Box>
                     ))}
                 </Uu5Elements.Grid>
 
                 <div>
                     <hr /><br />
-                    <h3>Přehled nákupních seznamů a počtu jejich položek</h3>
+                    <h3>Přehled nákupních seznamů podle počtu položek</h3>
                     <XyChart
                     data={chartData}
                     serieList={[{ valueKey: "itemsCount", bar: true, color: "light-green" }]}

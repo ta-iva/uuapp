@@ -4,6 +4,7 @@ import Config from "./config/config.js";
 import {USERS, useUser} from "./user.js";
 import Uu5Elements from "uu5g05-elements";
 import Uu5Forms from "uu5g05-forms";
+import { PieChart } from "uu5chartsg01";
 import Item from "./item.js";
 import MemberItem from "./memberItem.js";
 //@@viewOff:imports
@@ -109,6 +110,31 @@ const ShoppingList = createVisualComponent({
                         <Item key={item.id} {...item} onRemove={() => removeItem(item.id)} toggleSolved={() => toggleSolvedItem(item.id)} />
                     ))}
                 </Uu5Elements.Grid>
+
+                <div>
+                    <hr /><br />
+                    <h3>Poměr ne/vyřešených položek:</h3>
+                    <PieChart
+                        data={[{name: "VYŘEŠENÉ", count: filterItems(items).filter(item => item.isSolved === true).length || 0}, 
+                            {name: "NEVYŘEŠENÉ", count: filterItems(items).filter(item => item.isSolved === false).length || 0}]}
+                        serieList={[
+                        {
+                            valueKey: "count",
+                            labelKey: "name",
+                            color: (item) => {
+                                const { name } = item;
+                                switch (name) {
+                                  case "VYŘEŠENÉ":
+                                    return "#81C534";
+                                  case "NEVYŘEŠENÉ":
+                                    return "#E53D39";
+                                }
+                              },
+                            label: [{ position: "inside", type: "value" }, { position: "outside", type: "label" }]
+                        },
+                        ]}
+                    />
+                </div>
 
             </Uu5Elements.Block>
 
